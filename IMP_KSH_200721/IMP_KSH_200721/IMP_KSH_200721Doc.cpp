@@ -211,7 +211,8 @@ void CIMPKSH200721Doc::OnDownSampling()
 
 void CIMPKSH200721Doc::OnUpSampling()
 {
-	int i, j;
+	int x, x2, y, y2;
+	double rate1, rate2;
 	CUpSampleDig dlg;
 	if (dlg.DoModal() == IDOK) { // DoModal 대화상자의 활성화 여부
 		m_Re_height = m_height * dlg.m_UpSampleRate;
@@ -222,13 +223,37 @@ void CIMPKSH200721Doc::OnUpSampling()
 		// 확대 영상의 크기 계산
 		m_OutputImage = new unsigned char[m_Re_size];
 		// 확대 영상을 위한 메모리 할당
-		for (i = 0; i < m_Re_size; i++)
-			m_OutputImage[i] = 0; // 초기화
-		for (i = 0; i < m_height; i++) {
-			for (j = 0; j < m_width; j++) {
-				m_OutputImage[i * dlg.m_UpSampleRate * m_Re_width +
-					dlg.m_UpSampleRate * j] = m_InputImage[i * m_width + j];
+		for (x = 0; x < m_Re_size; x++)
+			m_OutputImage[x] = 0; // 초기화
+		for (y = 0; y < m_height; y++) {
+			for (x = 0; x < m_width; x++) {
+				m_OutputImage[y * dlg.m_UpSampleRate * m_Re_width + dlg.m_UpSampleRate * x] = m_InputImage[y * m_width + x];
 			} // 재배치하여 영상 확대
+		}
+
+		for (y = 0; y < m_Re_height - dlg.m_UpSampleRate; y+=dlg.m_UpSampleRate)
+		{
+			for (x = 0; x < m_Re_width - dlg.m_UpSampleRate; x+=dlg.m_UpSampleRate)
+			{
+				for (x2 = 1; x2 < dlg.m_UpSampleRate; x2++)
+				{
+					m_OutputImage[y * m_Re_width + x + x2]
+						= m_OutputImage[y * m_Re_width + x] * (dlg.m_UpSampleRate - x2) / dlg.m_UpSampleRate
+						+ m_OutputImage[y * m_Re_width + x + dlg.m_UpSampleRate] * x2 / dlg.m_UpSampleRate;
+					m_OutputImage[(y+dlg.m_UpSampleRate) * m_Re_width + x + x2]
+						= m_OutputImage[(y + dlg.m_UpSampleRate) * m_Re_width + x] * (dlg.m_UpSampleRate - x2) / dlg.m_UpSampleRate
+						+ m_OutputImage[(y + dlg.m_UpSampleRate) * m_Re_width + x + dlg.m_UpSampleRate] * x2 / dlg.m_UpSampleRate;
+				}
+				for (y2 = 1; y2 < dlg.m_UpSampleRate; y2++)
+				{
+					rate1 = (double)(dlg.m_UpSampleRate - y2) / dlg.m_UpSampleRate;
+					rate2 = (double)y2 / dlg.m_UpSampleRate;
+					for (x2 = 0; x2 <= dlg.m_UpSampleRate; x2++)
+					{
+						m_OutputImage[(y+y2) * m_Re_width + x + x2] = (double)m_OutputImage[y * m_Re_width + x + x2] * rate1 + (double)m_OutputImage[(y + dlg.m_UpSampleRate) * m_Re_width + x + x2] * rate2;
+					}
+				}
+			}
 		}
 	}
 }
