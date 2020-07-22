@@ -211,8 +211,8 @@ void CIMPKSH200721Doc::OnDownSampling()
 
 void CIMPKSH200721Doc::OnUpSampling()
 {
-	int x, x2, y, y2;
-	double rate1, rate2;
+	int x, y, x1, x2, y1, y2;
+	double rate1, rate2, rate3, rate4;
 	CUpSampleDig dlg;
 	if (dlg.DoModal() == IDOK) { // DoModal 대화상자의 활성화 여부
 		m_Re_height = m_height * dlg.m_UpSampleRate;
@@ -231,28 +231,20 @@ void CIMPKSH200721Doc::OnUpSampling()
 			} // 재배치하여 영상 확대
 		}
 
-		for (y = 0; y < m_Re_height - dlg.m_UpSampleRate; y+=dlg.m_UpSampleRate)
+		for (y = 0; y <= m_Re_height - dlg.m_UpSampleRate; y++)
 		{
-			for (x = 0; x < m_Re_width - dlg.m_UpSampleRate; x+=dlg.m_UpSampleRate)
+			for (x = 0; x <= m_Re_width - dlg.m_UpSampleRate; x++)
 			{
-				for (x2 = 1; x2 < dlg.m_UpSampleRate; x2++)
-				{
-					m_OutputImage[y * m_Re_width + x + x2]
-						= m_OutputImage[y * m_Re_width + x] * (dlg.m_UpSampleRate - x2) / dlg.m_UpSampleRate
-						+ m_OutputImage[y * m_Re_width + x + dlg.m_UpSampleRate] * x2 / dlg.m_UpSampleRate;
-					m_OutputImage[(y+dlg.m_UpSampleRate) * m_Re_width + x + x2]
-						= m_OutputImage[(y + dlg.m_UpSampleRate) * m_Re_width + x] * (dlg.m_UpSampleRate - x2) / dlg.m_UpSampleRate
-						+ m_OutputImage[(y + dlg.m_UpSampleRate) * m_Re_width + x + dlg.m_UpSampleRate] * x2 / dlg.m_UpSampleRate;
-				}
-				for (y2 = 1; y2 < dlg.m_UpSampleRate; y2++)
-				{
-					rate1 = (double)(dlg.m_UpSampleRate - y2) / dlg.m_UpSampleRate;
-					rate2 = (double)y2 / dlg.m_UpSampleRate;
-					for (x2 = 0; x2 <= dlg.m_UpSampleRate; x2++)
-					{
-						m_OutputImage[(y+y2) * m_Re_width + x + x2] = (double)m_OutputImage[y * m_Re_width + x + x2] * rate1 + (double)m_OutputImage[(y + dlg.m_UpSampleRate) * m_Re_width + x + x2] * rate2;
-					}
-				}
+				x1 = (x / dlg.m_UpSampleRate) * dlg.m_UpSampleRate;
+				x2 = x1 + dlg.m_UpSampleRate;
+				y1 = (y / dlg.m_UpSampleRate) * dlg.m_UpSampleRate;
+				y2 = y1 + dlg.m_UpSampleRate;
+				rate2 = (double)(x-x1) / dlg.m_UpSampleRate;
+				rate1 = 1 - rate2;
+				rate4 = (double)(y-y1) / dlg.m_UpSampleRate;
+				rate3 = 1 - rate4;
+				m_OutputImage[y * m_Re_width + x] = (unsigned char)(rate3 * (rate1 * m_OutputImage[y1 * m_Re_width + x1] + rate2 * m_OutputImage[y1 * m_Re_width + x2])
+					+ rate4 * (rate1 * m_OutputImage[y2 * m_Re_width + x1] + rate2 * m_OutputImage[y2 * m_Re_width + x2]));
 			}
 		}
 	}
