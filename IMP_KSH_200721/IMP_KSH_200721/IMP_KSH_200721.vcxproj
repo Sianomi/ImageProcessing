@@ -183,10 +183,12 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CConstantDlg.h" />
     <ClInclude Include="CDownSampleDlg.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="CQuantizationDlg.h" />
+    <ClInclude Include="CStressTransformDlg.h" />
     <ClInclude Include="CUpSampleDig.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="framework.h" />
@@ -202,10 +204,12 @@
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CConstantDlg.cpp" />
     <ClCompile Include="CDownSampleDlg.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="CQuantizationDlg.cpp" />
+    <ClCompile Include="CStressTransformDlg.cpp" />
     <ClCompile Include="CUpSampleDig.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="IMP_KSH_200721.cpp" />

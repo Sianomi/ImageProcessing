@@ -33,6 +33,18 @@ BEGIN_MESSAGE_MAP(CIMPKSH200721View, CView)
 	ON_COMMAND(ID_DOWN_SAMPLING, &CIMPKSH200721View::OnDownSampling)
 	ON_COMMAND(ID_UP_SAMPLING, &CIMPKSH200721View::OnUpSampling)
 	ON_COMMAND(ID_QUANTIZATION, &CIMPKSH200721View::OnQuantization)
+	ON_COMMAND(ID_SUM_CONSTANT, &CIMPKSH200721View::OnSumConstant)
+	ON_COMMAND(ID_SUB_CONSTANT, &CIMPKSH200721View::OnSubConstant)
+	ON_COMMAND(ID_MUL_CONSTANT, &CIMPKSH200721View::OnMulConstant)
+	ON_COMMAND(ID_DIV_CONSTANT, &CIMPKSH200721View::OnDivConstant)
+	ON_COMMAND(ID_AND_OPERATE, &CIMPKSH200721View::OnAndOperate)
+	ON_COMMAND(ID_OR_OPERATE, &CIMPKSH200721View::OnOrOperate)
+	ON_COMMAND(ID_XOR_OPERATE, &CIMPKSH200721View::OnXorOperate)
+	ON_COMMAND(ID_NEGA_TRANSFORM, &CIMPKSH200721View::OnNegaTransform)
+	ON_COMMAND(ID_GAMMA_CORRECTION, &CIMPKSH200721View::OnGammaCorrection)
+	ON_COMMAND(ID_BINARIZATION, &CIMPKSH200721View::OnBinarization)
+	ON_COMMAND(ID_STRESS_TRANSFORM,&CIMPKSH200721View::OnStressTransform)
+	ON_COMMAND(ID_HISTO_STRETCH,&CIMPKSH200721View::OnHistoStretch)
 END_MESSAGE_MAP()
 
 // CIMPKSH200721View 생성/소멸
@@ -174,4 +186,96 @@ void CIMPKSH200721View::OnQuantization()
 	pDoc->OnQuantization(); // Doc 클래스에 OnQuantization 함수 호출
 	Invalidate(TRUE); // 화면 갱신
 
+}
+
+void CIMPKSH200721View::OnSumConstant()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnSumConstant();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnSubConstant()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnSubConstant();
+	Invalidate(TRUE);
+}
+void CIMPKSH200721View::OnMulConstant()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnMulConstant();
+	Invalidate(TRUE);
+}
+void CIMPKSH200721View::OnDivConstant()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnDivConstant();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnAndOperate()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnAndOperate();
+	Invalidate(TRUE);
+}
+void CIMPKSH200721View::OnOrOperate()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnOrOperate();
+	Invalidate(TRUE);
+}
+void CIMPKSH200721View::OnXorOperate()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnXorOperate();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnNegaTransform()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnNegaTransform();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnGammaCorrection()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnGammaCorrection();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnBinarization()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnBinarizaion();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnStressTransform()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnStressTransform();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnHistoStretch()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnHistoStretch();
+	Invalidate(TRUE);
 }

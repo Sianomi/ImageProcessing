@@ -15,6 +15,8 @@
 #include "CUpSampleDig.h"
 #include "CQuantizationDlg.h" // 대화상자 사용을 위한 헤더 선언
 #include "math.h" // 수학 함수 사용을 위한 헤더 선언
+#include "CStressTransformDlg.h"
+#include "CConstantDlg.h"
 #include <propkey.h>
 
 #ifdef _DEBUG
@@ -249,18 +251,326 @@ void CIMPKSH200721Doc::OnQuantization()
 		LEVEL = 256; // 입력 영상의 양자화 단계(28=256)
 		HIGH = 256.;
 		value = (int)pow(2, dlg.m_QuantBit);
+		int temp = LEVEL / value;
 		// 양자화 단계 결정(예 : 24=16)
 		for (i = 0; i < m_size; i++) {
-			for (j = 0; j < value; j++) {
-				if (m_InputImage[i] >= (LEVEL / value) * j &&
-					m_InputImage[i] < (LEVEL / value) * (j + 1)) {
-					TEMP[i] = (double)(HIGH / value) * j; // 양자화 수행
-				}
-			}
+			//for (j = 0; j < value; j++) {
+			//	if (m_InputImage[i] >= (LEVEL / value) * j && m_InputImage[i] < (LEVEL / value) * (j + 1)) {
+			//		TEMP[i] = (double)(HIGH / value) * j; // 양자화 수행
+			//		break;
+			//	}
+			//}
+			TEMP[i] = (int)(((double)m_InputImage[i]+0.5) / temp) * temp;
 		}
-		for (i = 0; i < m_size; i++) {
+		for (i = 0; i < m_size; i++) 
+		{
 			m_OutputImage[i] = (unsigned char)TEMP[i];
 			// 결과 영상 생성
 		}
 	}
+}
+
+void CIMPKSH200721Doc::OnSumConstant()
+{
+	CConstantDlg dlg;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		m_OutputImage = new unsigned char[m_size];
+
+		m_Re_height = m_height;
+		m_Re_width = m_width;
+		m_Re_size = m_size;
+
+		for (int i = 0; i < m_Re_size; i++)
+		{
+			double temp = m_InputImage[i] + dlg.m_Constant;
+			if (temp > 255)
+			{
+				m_OutputImage[i] = 255;
+				continue;
+			}
+			m_OutputImage[i] = (unsigned char)temp;
+		}
+	}
+}
+
+void CIMPKSH200721Doc::OnSubConstant()
+{
+	CConstantDlg dlg;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		m_OutputImage = new unsigned char[m_size];
+
+		m_Re_height = m_height;
+		m_Re_width = m_width;
+		m_Re_size = m_size;
+
+		for (int i = 0; i < m_Re_size; i++)
+		{
+			double temp = m_InputImage[i] - dlg.m_Constant;
+			if (temp < 0)
+			{
+				m_OutputImage[i] = 0;
+				continue;
+			}
+			m_OutputImage[i] = (unsigned char)temp;
+		}
+	}
+}
+
+void CIMPKSH200721Doc::OnMulConstant()
+{
+	CConstantDlg dlg;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		m_OutputImage = new unsigned char[m_size];
+
+		m_Re_height = m_height;
+		m_Re_width = m_width;
+		m_Re_size = m_size;
+
+		for (int i = 0; i < m_Re_size; i++)
+		{
+			double temp = m_InputImage[i] * dlg.m_Constant;
+			if (temp > 255)
+			{
+				m_OutputImage[i] = 255;
+				continue;
+			}
+			else if (temp < 0)
+			{
+				m_OutputImage[i] = 0;
+				continue;
+			}
+			m_OutputImage[i] = (unsigned char)temp;
+		}
+	}
+}
+
+void CIMPKSH200721Doc::OnDivConstant()
+{
+	CConstantDlg dlg;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		m_OutputImage = new unsigned char[m_size];
+
+		m_Re_height = m_height;
+		m_Re_width = m_width;
+		m_Re_size = m_size;
+
+		for (int i = 0; i < m_Re_size; i++)
+		{
+			double temp = m_InputImage[i] / dlg.m_Constant;
+			if (temp > 255)
+			{
+				m_OutputImage[i] = 255;
+				continue;
+			}
+			else if (temp < 0)
+			{
+				m_OutputImage[i] = 0;
+				continue;
+			}
+			m_OutputImage[i] = (unsigned char)temp;
+		}
+	}
+}
+
+void CIMPKSH200721Doc::OnAndOperate()
+{
+	CConstantDlg dlg;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		m_OutputImage = new unsigned char[m_size];
+
+		m_Re_height = m_height;
+		m_Re_width = m_width;
+		m_Re_size = m_size;
+
+		for (int i = 0; i < m_Re_size; i++)
+		{
+			int temp = m_InputImage[i] & (unsigned char)dlg.m_Constant;
+			if (temp > 255)
+			{
+				m_OutputImage[i] = 255;
+				continue;
+			}
+			else if (temp < 0)
+			{
+				m_OutputImage[i] = 0;
+				continue;
+			}
+			m_OutputImage[i] = (unsigned char)temp;
+		}
+	}
+}
+void CIMPKSH200721Doc::OnOrOperate()
+{
+	CConstantDlg dlg;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		m_OutputImage = new unsigned char[m_size];
+
+		m_Re_height = m_height;
+		m_Re_width = m_width;
+		m_Re_size = m_size;
+
+		for (int i = 0; i < m_Re_size; i++)
+		{
+			int temp = m_InputImage[i] | (unsigned char)dlg.m_Constant;
+			if (temp > 255)
+			{
+				m_OutputImage[i] = 255;
+				continue;
+			}
+			else if (temp < 0)
+			{
+				m_OutputImage[i] = 0;
+				continue;
+			}
+			m_OutputImage[i] = (unsigned char)temp;
+		}
+	}
+}
+void CIMPKSH200721Doc::OnXorOperate()
+{
+	CConstantDlg dlg;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		m_OutputImage = new unsigned char[m_size];
+
+		m_Re_height = m_height;
+		m_Re_width = m_width;
+		m_Re_size = m_size;
+
+		for (int i = 0; i < m_Re_size; i++)
+		{
+			int temp = m_InputImage[i] ^ (unsigned char)dlg.m_Constant;
+			if (temp > 255)
+			{
+				m_OutputImage[i] = 255;
+				continue;
+			}
+			else if (temp < 0)
+			{
+				m_OutputImage[i] = 0;
+				continue;
+			}
+			m_OutputImage[i] = (unsigned char)temp;
+		}
+	}
+}
+
+void CIMPKSH200721Doc::OnNegaTransform()
+{
+	m_OutputImage = new unsigned char[m_size];
+
+	m_Re_height = m_height;
+	m_Re_width = m_width;
+	m_Re_size = m_size;
+
+	for (int i = 0; i < m_Re_size; i++)
+	{
+		m_OutputImage[i] = 255 - m_InputImage[i];
+	}
+}
+
+void CIMPKSH200721Doc::OnGammaCorrection()
+{
+	CConstantDlg dlg;
+	m_OutputImage = new unsigned char[m_size];
+
+	if (dlg.DoModal() == IDOK)
+	{
+		m_OutputImage = new unsigned char[m_size];
+
+		m_Re_height = m_height;
+		m_Re_width = m_width;
+		m_Re_size = m_size;
+
+		for (int i = 0; i < m_Re_size; i++)
+		{
+			double temp = pow((double)m_InputImage[i], 1/dlg.m_Constant);
+			if (temp > 255)
+			{
+				m_OutputImage[i] = 255;
+				continue;
+			}
+			else if (temp < 0)
+			{
+				m_OutputImage[i] = 0;
+				continue;
+			}
+			m_OutputImage[i] = (unsigned char)temp;
+		}
+	}
+}
+
+void CIMPKSH200721Doc::OnBinarizaion()
+{
+	CConstantDlg dlg;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		m_OutputImage = new unsigned char[m_size];
+
+		m_Re_height = m_height;
+		m_Re_width = m_width;
+		m_Re_size = m_size;
+
+		for (int i = 0; i < m_Re_size; i++)
+			m_OutputImage[i] = (m_InputImage[i] >= dlg.m_Constant) ? 255 : 0;
+	}
+}
+
+void CIMPKSH200721Doc::OnStressTransform()
+{
+	CStressTransformDlg dlg;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		m_OutputImage = new unsigned char[m_size];
+
+		m_Re_height = m_height;
+		m_Re_width = m_width;
+		m_Re_size = m_size;
+
+		for (int i = 0; i < m_Re_size; i++)
+			m_OutputImage[i] = (m_InputImage[i] >= dlg.m_StartPoint && m_InputImage[i] < dlg.m_EndPoint) ? 255 : m_InputImage[i];
+	}
+}
+
+void CIMPKSH200721Doc::OnHistoStretch()
+{
+	unsigned char LOW, HIGH, MAX, MIN;
+	int i, temp;
+	
+	m_Re_height = m_height;
+	m_Re_width = m_width;
+	m_Re_size = m_size;
+
+	m_OutputImage = new unsigned char[m_Re_size];
+
+	MAX = LOW = 0;
+	MIN = HIGH = 255;
+
+	for (i = 0; i < m_Re_size; i++)
+	{
+		if (m_InputImage[i] < MIN)
+			MIN = m_InputImage[i];
+		if (m_InputImage[i] > MAX)
+			MAX = m_InputImage[i];
+	}
+
+	temp = MAX - MIN;
+
+	for (i = 0; i < m_Re_size; i++)
+		m_OutputImage[i] = (unsigned char)(((double)m_InputImage[i] - MIN) * HIGH / temp);
 }
