@@ -18,6 +18,7 @@
 #include "CStressTransformDlg.h"
 #include "CConstantDlg.h"
 #include <propkey.h>
+#include <stdlib.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -30,6 +31,15 @@ IMPLEMENT_DYNCREATE(CIMPKSH200721Doc, CDocument)
 BEGIN_MESSAGE_MAP(CIMPKSH200721Doc, CDocument)
 END_MESSAGE_MAP()
 
+int compare(const void* x, const void* y)
+{
+	if (*(unsigned char*)x > * (unsigned char*)y)
+		return -1;
+	if (*(unsigned char*)x == *(unsigned char*)y)
+		return 0;
+	if (*(unsigned char*)x < *(unsigned char*)y)
+		return 1;
+}
 
 // CIMPKSH200721Doc 생성/소멸
 
@@ -212,8 +222,7 @@ void CIMPKSH200721Doc::OnDownSampling()
 
 void CIMPKSH200721Doc::OnUpSampling()
 {
-	int x, y, x1, x2, y1, y2;
-	double rate1, rate2, rate3, rate4;
+	int x, y;
 	CUpSampleDig dlg;
 	if (dlg.DoModal() == IDOK) { // DoModal 대화상자의 활성화 여부
 		m_Re_height = m_height * dlg.m_UpSampleRate;
@@ -224,28 +233,11 @@ void CIMPKSH200721Doc::OnUpSampling()
 		// 확대 영상의 크기 계산
 		m_OutputImage = new unsigned char[m_Re_size];
 		// 확대 영상을 위한 메모리 할당
-		memset(m_OutputImage, 0, sizeof(m_OutputImage));
+		memset(m_OutputImage, 0, _msize(m_OutputImage));
 		for (y = 0; y < m_height; y++) {
 			for (x = 0; x < m_width; x++) {
 				m_OutputImage[y * dlg.m_UpSampleRate * m_Re_width + dlg.m_UpSampleRate * x] = m_InputImage[y * m_width + x];
 			} // 재배치하여 영상 확대
-		}
-
-		for (y = 0; y <= m_Re_height - dlg.m_UpSampleRate; y++)
-		{
-			for (x = 0; x <= m_Re_width - dlg.m_UpSampleRate; x++)
-			{
-				x1 = (x / dlg.m_UpSampleRate) * dlg.m_UpSampleRate;
-				x2 = x1 + dlg.m_UpSampleRate;
-				y1 = (y / dlg.m_UpSampleRate) * dlg.m_UpSampleRate;
-				y2 = y1 + dlg.m_UpSampleRate;
-				rate2 = (double)(x-x1) / dlg.m_UpSampleRate;
-				rate1 = 1 - rate2;
-				rate4 = (double)(y-y1) / dlg.m_UpSampleRate;
-				rate3 = 1 - rate4;
-				m_OutputImage[y * m_Re_width + x] = (unsigned char)(rate3 * (rate1 * m_OutputImage[y1 * m_Re_width + x1] + rate2 * m_OutputImage[y1 * m_Re_width + x2])
-					+ rate4 * (rate1 * m_OutputImage[y2 * m_Re_width + x1] + rate2 * m_OutputImage[y2 * m_Re_width + x2]));
-			}
 		}
 	}
 }
@@ -610,7 +602,7 @@ void CIMPKSH200721Doc::OnHistogram()
 		m_Scale_HIST[x] = (m_HIST[x] - MIN) * 255 / (MAX - MIN);
 	
 	m_OutputImage = new unsigned char[m_Re_size + 256 * 20];
-	memset(m_OutputImage, 255, sizeof(m_OutputImage) + 256 * 20);
+	memset(m_OutputImage, 255, _msize(m_OutputImage) + 256 * 20);
 	
 	for (x = 0; x < 256; x++)
 		for (y = 0; y < m_Scale_HIST[x]; y++)
@@ -1067,5 +1059,228 @@ void CIMPKSH200721Doc::OnLaplacian()
 				= (unsigned char)m_tempImage[i][j];
 		}
 	}
+}
+
+void CIMPKSH200721Doc::OnNearest()
+{
+	CConstantDlg dlg;
+	int x, y, value;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		m_Re_width = m_width * dlg.m_Constant;
+		m_Re_height = m_height * dlg.m_Constant;
+		m_Re_size = m_Re_height * m_Re_width;
+
+		m_OutputImage = new unsigned char[m_Re_size];
+		memset(m_OutputImage, 0, _msize(m_OutputImage));
+
+
+		for (y = 0; y < m_Re_height; y++)
+			for (x = 0; x < m_Re_width; x++)
+			{
+				value = (y / (int)dlg.m_Constant) * m_width + (x / (int)dlg.m_Constant);
+				m_OutputImage[y * m_Re_width + x] = m_InputImage[value];
+			}
+				
+	}
+}
+
+void CIMPKSH200721Doc::OnBilinear()
+{
+	int x, y, x1, x2, y1, y2;
+	double rate1, rate2, rate3, rate4;
+	CUpSampleDig dlg;
+	if (dlg.DoModal() == IDOK) { // DoModal 대화상자의 활성화 여부
+		m_Re_height = m_height * dlg.m_UpSampleRate;
+		// 확대 영상의 세로 길이 계산
+		m_Re_width = m_width * dlg.m_UpSampleRate;
+		// 확대 영상의 가로 길이 계산
+		m_Re_size = m_Re_height * m_Re_width;
+		// 확대 영상의 크기 계산
+		m_OutputImage = new unsigned char[m_Re_size];
+		// 확대 영상을 위한 메모리 할당
+		memset(m_OutputImage, 0, _msize(m_OutputImage));
+		for (y = 0; y < m_height; y++) {
+			for (x = 0; x < m_width; x++) {
+				m_OutputImage[y * dlg.m_UpSampleRate * m_Re_width + dlg.m_UpSampleRate * x] = m_InputImage[y * m_width + x];
+			} // 재배치하여 영상 확대
+		}
+
+		for (y = 0; y <= m_Re_height - dlg.m_UpSampleRate; y++)
+		{
+			for (x = 0; x <= m_Re_width - dlg.m_UpSampleRate; x++)
+			{
+				x1 = (x / dlg.m_UpSampleRate) * dlg.m_UpSampleRate;
+				x2 = x1 + dlg.m_UpSampleRate;
+				y1 = (y / dlg.m_UpSampleRate) * dlg.m_UpSampleRate;
+				y2 = y1 + dlg.m_UpSampleRate;
+				rate2 = (double)(x - x1) / dlg.m_UpSampleRate;
+				rate1 = 1 - rate2;
+				rate4 = (double)(y - y1) / dlg.m_UpSampleRate;
+				rate3 = 1 - rate4;
+				m_OutputImage[y * m_Re_width + x] = (unsigned char)(rate3 * (rate1 * m_OutputImage[y1 * m_Re_width + x1] + rate2 * m_OutputImage[y1 * m_Re_width + x2])
+					+ rate4 * (rate1 * m_OutputImage[y2 * m_Re_width + x1] + rate2 * m_OutputImage[y2 * m_Re_width + x2]));
+			}
+		}
+	}
+}
+
+void CIMPKSH200721Doc::OnMedianSub()
+{
+	int x, y, i, index{ 0 }, list_count;
+	unsigned char * mask;
+	CConstantDlg dlg;
+	if (dlg.DoModal() == IDOK)
+	{
+		mask = new unsigned char[(int)dlg.m_Constant* (int)dlg.m_Constant];
+
+		m_Re_width = (m_width + 1) / (int)dlg.m_Constant;
+		m_Re_height = (m_height + 1) / (int)dlg.m_Constant;
+		m_Re_size = m_Re_height * m_Re_width;
+
+		m_OutputImage = new unsigned char[m_Re_size];
+		memset(m_OutputImage, 255, _msize(m_OutputImage));
+
+		list_count = (int)(dlg.m_Constant * dlg.m_Constant);
+
+		for(y=0;y<m_height-1;y+= (int)dlg.m_Constant)
+			for (x = 0; x < m_width-1; x+= (int)dlg.m_Constant)
+			{
+				for (i = 0; i < list_count; i++)
+					mask[i] = m_InputImage[(y+i/(int)dlg.m_Constant) * m_width + x + ( i % (int)dlg.m_Constant)];
+				qsort(mask, sizeof(mask) / sizeof(unsigned char), sizeof(unsigned char),compare);
+				m_OutputImage[index++] = mask[list_count / 2];
+			}
+	}
+}
+
+void CIMPKSH200721Doc::OnMeanSub()
+{
+	int x, y, i, index{ 0 }, list_count, sum{ 0 };
+	CConstantDlg dlg;
+	if (dlg.DoModal() == IDOK)
+	{
+		m_Re_width = (m_width + 1) / (int)dlg.m_Constant;
+		m_Re_height = (m_height + 1) / (int)dlg.m_Constant;
+		m_Re_size = m_Re_height * m_Re_width;
+
+		m_OutputImage = new unsigned char[m_Re_size];
+		memset(m_OutputImage, 255, _msize(m_OutputImage));
+
+		list_count = (int)(dlg.m_Constant * dlg.m_Constant);
+
+		for (y = 0; y < m_height - 1; y += (int)dlg.m_Constant)
+			for (x = 0; x < m_width - 1; x += (int)dlg.m_Constant)
+			{
+				for (i = 0; i < list_count; i++)
+					sum += m_InputImage[(y + i / (int)dlg.m_Constant) * m_width + x + (i % (int)dlg.m_Constant)];
+				
+				m_OutputImage[index++] = sum / list_count;
+				sum = 0;
+			}
+	}
+}
+
+void CIMPKSH200721Doc::OnTranslation()
+{
+	CStressTransformDlg dlg;
+	if (dlg.DoModal() == IDOK)
+	{
+		int h_pos{ dlg.m_StartPoint }, w_pos{ dlg.m_EndPoint };
+
+		m_Re_height = m_height;
+		m_Re_width = m_width;
+		m_Re_size = m_Re_height * m_Re_width;
+
+		m_OutputImage = new unsigned char[m_Re_size];
+		memset(m_OutputImage, 0, _msize(m_OutputImage));
+
+		for(int y=0;y<m_Re_height-h_pos;y++)
+			for (int x = 0; x < m_Re_width-w_pos; x++)
+				m_OutputImage[(y +  h_pos) * m_Re_width + x + w_pos] = m_InputImage[y * m_width + x];
+	}
+}
+
+void CIMPKSH200721Doc::OnMirrorHor()
+{
+	int x, y;
+
+	m_Re_height = m_height;
+	m_Re_width = m_width;
+	m_Re_size = m_Re_height * m_Re_width;
+
+	m_OutputImage = new unsigned char[m_Re_size];
+
+	for (y = 0; y < m_Re_height; y++)
+		for (x = 0; x < m_Re_width; x++)
+			m_OutputImage[y * m_Re_height + m_Re_width - x - 1] = m_InputImage[y * m_height + x];
+}
+
+void CIMPKSH200721Doc::OnMirrorVer()
+{
+	int x, y;
+
+	m_Re_height = m_height;
+	m_Re_width = m_width;
+	m_Re_size = m_Re_height * m_Re_width;
+
+	m_OutputImage = new unsigned char[m_Re_size];
+
+	for (y = 0; y < m_Re_height; y++)
+		for (x = 0; x < m_Re_width; x++)
+			m_OutputImage[(m_Re_height - y - 1) * m_Re_height + x] = m_InputImage[y * m_height + x];
+}
+
+void CIMPKSH200721Doc::OnRotation()
+{
+	int i, j, CenterH, CenterW, newH, newW, degree = 45;
+	// degree = 회전할 각도
+	double Radian, PI, ** tempArray, Value;
+	m_Re_height = m_height; // 회전된 영상의 높이
+	m_Re_width = m_width; // 회전된 영상의 너비
+	m_Re_size = m_Re_height * m_Re_width;
+	m_OutputImage = new unsigned char[m_Re_size];
+	PI = 3.14159265358979; // 회전각을 위한 PI 값
+	Radian = (double)degree * PI / 180.0;
+	// degree 값을 radian으로 변경
+	CenterH = m_height / 2; // 영상의 중심 좌표
+	CenterW = m_width / 2; // 영상의 중심 좌표
+	m_tempImage = Image2DMem(m_height, m_width);
+	tempArray = Image2DMem(m_Re_height, m_Re_width);
+	for (i = 0; i < m_height; i++) {
+		for (j = 0; j < m_width; j++) {
+			m_tempImage[i][j] = (double)m_InputImage[i * m_width + j];
+		}
+	}
+	for (i = 0; i < m_height; i++) {
+		for (j = 0; j < m_width; j++) {
+			// 회전 변환 행렬을 이용하여 회전하게 될 좌표 값 계산
+			newH = (int)((i - CenterH) * cos(Radian)
+				- (j - CenterW) * sin(Radian) + CenterH);
+			newW = (int)((i - CenterH) * sin(Radian)
+				+ (j - CenterW) * sin(Radian) + CenterW);
+			if (newH < 0 || newH >= m_height) {
+				// 회전된 좌표가 출력 영상을 위한 배열 값을 넘어갈 때
+				Value = 0;
+			}
+			else if (newW < 0 || newW >= m_width) {
+				// 회전된 좌표가 출력 영상을 위한 배열 값을 넘어갈 때
+				Value = 0;
+			}
+			else {
+				Value = m_tempImage[newH][newW];
+			}
+			tempArray[i][j] = Value;
+		}
+	}
+	for (i = 0; i < m_Re_height; i++) {
+		for (j = 0; j < m_Re_width; j++) {
+			m_OutputImage[i * m_Re_width + j]
+				= (unsigned char)tempArray[i][j];
+		}
+	}
+	delete[] m_tempImage;
+	delete[] tempArray;
 }
 

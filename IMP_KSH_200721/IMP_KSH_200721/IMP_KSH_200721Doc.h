@@ -87,4 +87,12 @@ public:
 	void OnHomogenOperator();
 	double DoubleABS(double X);
 	void OnLaplacian();
+	void OnNearest();
+	void OnBilinear();
+	void OnMedianSub();
+	void OnMeanSub();
+	void OnTranslation();
+	void OnMirrorHor();
+	void OnMirrorVer();
+	void OnRotation();
 };

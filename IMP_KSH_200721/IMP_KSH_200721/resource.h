@@ -146,13 +146,30 @@
 #define ID_EDGEDETECTION_32823          32823
 #define ID_HOMOGEN_OPERATOR             32824
 #define ID_LAPLACIAN                    32825
+#define ID_TRANSFORM                    32826
+#define ID_TRANSFORM_32827              32827
+#define ID_NEAREST                      32828
+#define ID_TRANSFORM_32829              32829
+#define ID_BILINEAR                     32830
+#define ID_TRANSFORM_32831              32831
+#define ID_MEDIAN_SUB                   32832
+#define ID_TRANSFORM_32833              32833
+#define ID_MEAN_SUB                     32834
+#define ID_TRANSFORM_32835              32835
+#define ID_TRANSLATION                  32836
+#define ID_TRANSFORM_32837              32837
+#define ID_TRANSFORM_32838              32838
+#define ID_MIRROR_HOR                   32839
+#define ID_MIRROR_VER                   32840
+#define ID_Menu32841                    32841
+#define ID_ROTATION                     32842
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        320
-#define _APS_NEXT_COMMAND_VALUE         32826
+#define _APS_NEXT_COMMAND_VALUE         32843
 #define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

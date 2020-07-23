@@ -30,7 +30,7 @@ BEGIN_MESSAGE_MAP(CIMPKSH200721View, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CIMPKSH200721View::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
-	ON_COMMAND_RANGE(ID_DOWN_SAMPLING, ID_LAPLACIAN, &CIMPKSH200721View::OnSelect)
+	ON_COMMAND_RANGE(ID_DOWN_SAMPLING, ID_ROTATION, &CIMPKSH200721View::OnSelect)
 END_MESSAGE_MAP()
 
 // CIMPKSH200721View 생성/소멸
@@ -232,6 +232,30 @@ void CIMPKSH200721View::OnSelect(UINT UID)
 			break;
 		case ID_LAPLACIAN:
 			pDoc->OnLaplacian();
+			break;
+		case ID_NEAREST:
+			pDoc->OnNearest();
+			break;
+		case ID_BILINEAR:
+			pDoc->OnBilinear();
+			break;
+		case ID_MEDIAN_SUB:
+			pDoc->OnMedianSub();
+			break;
+		case ID_MEAN_SUB:
+			pDoc->OnMeanSub();
+			break;
+		case ID_TRANSLATION:
+			pDoc->OnTranslation();
+			break;
+		case ID_MIRROR_HOR:
+			pDoc->OnMirrorHor();
+			break;
+		case ID_MIRROR_VER:
+			pDoc->OnMirrorVer();
+			break;
+		case ID_ROTATION:
+			pDoc->OnRotation();
 			break;
 	}
 	Invalidate(TRUE);
