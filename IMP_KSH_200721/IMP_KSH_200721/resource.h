@@ -121,13 +121,38 @@
 #define ID_STRESS_TRANSFORM             32798
 #define ID_32799                        32799
 #define ID_HISTO_STRETCH                32800
+#define ID_32801                        32801
+#define ID_END_IN_SEARCH                32802
+#define ID_32803                        32803
+#define ID_HISTOGRAM                    32804
+#define ID_32805                        32805
+#define ID_HISTO_EQUAL                  32806
+#define ID_32807                        32807
+#define ID_HISTO_SPEC                   32808
+#define ID_PIXELAREAPROCESSING_32809    32809
+#define ID_EMBOSSING                    32810
+#define ID_PIXELAREAPROCESSING_32811    32811
+#define ID_BLURR                        32812
+#define ID_PIXELAREAPROCESSING_32813    32813
+#define ID_GAUSSIAN_FILTER              32814
+#define ID_PIXELAREAPROCESSING_32815    32815
+#define ID_HPF_SHARP                    32816
+#define ID_PIXELAREAPROCESSING_32817    32817
+#define ID_SHARPENING                   32818
+#define ID_PIXELAREAPROCESSING_32819    32819
+#define ID_LPF_SHARP                    32820
+#define ID_EDGEDETECTION_32821          32821
+#define ID_DIFF_OPERATOR_HOR            32822
+#define ID_EDGEDETECTION_32823          32823
+#define ID_HOMOGEN_OPERATOR             32824
+#define ID_LAPLACIAN                    32825
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        320
-#define _APS_NEXT_COMMAND_VALUE         32801
+#define _APS_NEXT_COMMAND_VALUE         32826
 #define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

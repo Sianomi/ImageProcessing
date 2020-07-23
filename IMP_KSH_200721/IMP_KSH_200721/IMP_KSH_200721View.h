@@ -59,6 +59,19 @@ public:
 	afx_msg void OnBinarization();
 	afx_msg void OnStressTransform();
 	afx_msg void OnHistoStretch();
+	afx_msg void OnEndInSearch();
+	afx_msg void OnHistogram();
+	afx_msg void OnHistoEqual();
+	afx_msg void OnHistoSpec();
+	afx_msg void OnEmbossing();
+	afx_msg void OnBlurr();
+	afx_msg void OnGaussianFilter();
+	afx_msg void OnSharpening();
+	afx_msg void OnHpfSharp();
+	afx_msg void OnLpfSharp();
+	afx_msg void OnDiffOperatorHor();
+	afx_msg void OnHomogenOperator();
+	afx_msg void OnLaplacian();
 };
 
 #ifndef _DEBUG  // IMP_KSH_200721View.cpp의 디버그 버전

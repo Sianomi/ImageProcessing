@@ -45,6 +45,19 @@ BEGIN_MESSAGE_MAP(CIMPKSH200721View, CView)
 	ON_COMMAND(ID_BINARIZATION, &CIMPKSH200721View::OnBinarization)
 	ON_COMMAND(ID_STRESS_TRANSFORM,&CIMPKSH200721View::OnStressTransform)
 	ON_COMMAND(ID_HISTO_STRETCH,&CIMPKSH200721View::OnHistoStretch)
+	ON_COMMAND(ID_END_IN_SEARCH, &CIMPKSH200721View::OnEndInSearch)
+	ON_COMMAND(ID_HISTOGRAM, &CIMPKSH200721View::OnHistogram)
+	ON_COMMAND(ID_HISTO_EQUAL,&CIMPKSH200721View::OnHistoEqual)
+	ON_COMMAND(ID_HISTO_SPEC,&CIMPKSH200721View::OnHistoSpec)
+	ON_COMMAND(ID_EMBOSSING,&CIMPKSH200721View::OnEmbossing)
+	ON_COMMAND(ID_BLURR, &CIMPKSH200721View::OnBlurr)
+	ON_COMMAND(ID_GAUSSIAN_FILTER, &CIMPKSH200721View::OnGaussianFilter)
+	ON_COMMAND(ID_SHARPENING, &CIMPKSH200721View::OnSharpening)
+	ON_COMMAND(ID_HPF_SHARP, &CIMPKSH200721View::OnHpfSharp)
+	ON_COMMAND(ID_LPF_SHARP, &CIMPKSH200721View::OnLpfSharp)
+	ON_COMMAND(ID_DIFF_OPERATOR_HOR, &CIMPKSH200721View::OnDiffOperatorHor)
+	ON_COMMAND(ID_HOMOGEN_OPERATOR,&CIMPKSH200721View::OnHomogenOperator)
+	ON_COMMAND(ID_LAPLACIAN,&CIMPKSH200721View::OnLaplacian)
 END_MESSAGE_MAP()
 
 // CIMPKSH200721View 생성/소멸
@@ -277,5 +290,109 @@ void CIMPKSH200721View::OnHistoStretch()
 	CIMPKSH200721Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	pDoc->OnHistoStretch();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnEndInSearch()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnEndInSearch();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnHistogram()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnHistogram();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnHistoEqual()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnHistoEqual();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnHistoSpec()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnHistoSpec();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnEmbossing()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnEmbossing();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnBlurr()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnBlurr();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnGaussianFilter()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnGaussianFilter();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnSharpening()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnSharpening();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnHpfSharp()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnHpfSharp();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnLpfSharp()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnLpfSharp();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnDiffOperatorHor()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnDiffOperatorHor();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnHomogenOperator()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnHomogenOperator();
+	Invalidate(TRUE);
+}
+
+void CIMPKSH200721View::OnLaplacian()
+{
+	CIMPKSH200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnLaplacian();
 	Invalidate(TRUE);
 }
