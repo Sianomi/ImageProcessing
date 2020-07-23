@@ -44,34 +44,7 @@ protected:
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnDownSampling();
-	afx_msg void OnUpSampling();
-	afx_msg void OnQuantization();
-	afx_msg void OnSumConstant();
-	afx_msg void OnSubConstant();
-	afx_msg void OnMulConstant();
-	afx_msg void OnDivConstant();
-	afx_msg void OnAndOperate();
-	afx_msg void OnOrOperate();
-	afx_msg void OnXorOperate();
-	afx_msg void OnNegaTransform();
-	afx_msg void OnGammaCorrection();
-	afx_msg void OnBinarization();
-	afx_msg void OnStressTransform();
-	afx_msg void OnHistoStretch();
-	afx_msg void OnEndInSearch();
-	afx_msg void OnHistogram();
-	afx_msg void OnHistoEqual();
-	afx_msg void OnHistoSpec();
-	afx_msg void OnEmbossing();
-	afx_msg void OnBlurr();
-	afx_msg void OnGaussianFilter();
-	afx_msg void OnSharpening();
-	afx_msg void OnHpfSharp();
-	afx_msg void OnLpfSharp();
-	afx_msg void OnDiffOperatorHor();
-	afx_msg void OnHomogenOperator();
-	afx_msg void OnLaplacian();
+	afx_msg void OnSelect(UINT UID);
 };
 
 #ifndef _DEBUG  // IMP_KSH_200721View.cpp의 디버그 버전

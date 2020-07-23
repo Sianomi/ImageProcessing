@@ -30,34 +30,7 @@ BEGIN_MESSAGE_MAP(CIMPKSH200721View, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CIMPKSH200721View::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
-	ON_COMMAND(ID_DOWN_SAMPLING, &CIMPKSH200721View::OnDownSampling)
-	ON_COMMAND(ID_UP_SAMPLING, &CIMPKSH200721View::OnUpSampling)
-	ON_COMMAND(ID_QUANTIZATION, &CIMPKSH200721View::OnQuantization)
-	ON_COMMAND(ID_SUM_CONSTANT, &CIMPKSH200721View::OnSumConstant)
-	ON_COMMAND(ID_SUB_CONSTANT, &CIMPKSH200721View::OnSubConstant)
-	ON_COMMAND(ID_MUL_CONSTANT, &CIMPKSH200721View::OnMulConstant)
-	ON_COMMAND(ID_DIV_CONSTANT, &CIMPKSH200721View::OnDivConstant)
-	ON_COMMAND(ID_AND_OPERATE, &CIMPKSH200721View::OnAndOperate)
-	ON_COMMAND(ID_OR_OPERATE, &CIMPKSH200721View::OnOrOperate)
-	ON_COMMAND(ID_XOR_OPERATE, &CIMPKSH200721View::OnXorOperate)
-	ON_COMMAND(ID_NEGA_TRANSFORM, &CIMPKSH200721View::OnNegaTransform)
-	ON_COMMAND(ID_GAMMA_CORRECTION, &CIMPKSH200721View::OnGammaCorrection)
-	ON_COMMAND(ID_BINARIZATION, &CIMPKSH200721View::OnBinarization)
-	ON_COMMAND(ID_STRESS_TRANSFORM,&CIMPKSH200721View::OnStressTransform)
-	ON_COMMAND(ID_HISTO_STRETCH,&CIMPKSH200721View::OnHistoStretch)
-	ON_COMMAND(ID_END_IN_SEARCH, &CIMPKSH200721View::OnEndInSearch)
-	ON_COMMAND(ID_HISTOGRAM, &CIMPKSH200721View::OnHistogram)
-	ON_COMMAND(ID_HISTO_EQUAL,&CIMPKSH200721View::OnHistoEqual)
-	ON_COMMAND(ID_HISTO_SPEC,&CIMPKSH200721View::OnHistoSpec)
-	ON_COMMAND(ID_EMBOSSING,&CIMPKSH200721View::OnEmbossing)
-	ON_COMMAND(ID_BLURR, &CIMPKSH200721View::OnBlurr)
-	ON_COMMAND(ID_GAUSSIAN_FILTER, &CIMPKSH200721View::OnGaussianFilter)
-	ON_COMMAND(ID_SHARPENING, &CIMPKSH200721View::OnSharpening)
-	ON_COMMAND(ID_HPF_SHARP, &CIMPKSH200721View::OnHpfSharp)
-	ON_COMMAND(ID_LPF_SHARP, &CIMPKSH200721View::OnLpfSharp)
-	ON_COMMAND(ID_DIFF_OPERATOR_HOR, &CIMPKSH200721View::OnDiffOperatorHor)
-	ON_COMMAND(ID_HOMOGEN_OPERATOR,&CIMPKSH200721View::OnHomogenOperator)
-	ON_COMMAND(ID_LAPLACIAN,&CIMPKSH200721View::OnLaplacian)
+	ON_COMMAND_RANGE(ID_DOWN_SAMPLING, ID_LAPLACIAN, &CIMPKSH200721View::OnSelect)
 END_MESSAGE_MAP()
 
 // CIMPKSH200721View 생성/소멸
@@ -108,7 +81,6 @@ void CIMPKSH200721View::OnDraw(CDC* pDC)
 
 
 // CIMPKSH200721View 인쇄
-
 
 void CIMPKSH200721View::OnFilePrintPreview()
 {
@@ -171,228 +143,96 @@ CIMPKSH200721Doc* CIMPKSH200721View::GetDocument() const // 디버그되지 않�
 // CIMPKSH200721View 메시지 처리기
 
 
-void CIMPKSH200721View::OnDownSampling()
-{
-	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	CIMPKSH200721Doc* pDoc = GetDocument(); // Doc 클래스 참조
-	ASSERT_VALID(pDoc);
-	pDoc->OnDownSampling(); // Doc 클래스에 OnDownSampling 함수 호출
-	Invalidate(TRUE); // 화면 갱신
-}
-
-
-void CIMPKSH200721View::OnUpSampling()
-{
-	// TODO: Add your command handler code here
-	CIMPKSH200721Doc* pDoc = GetDocument(); // Doc 클래스 참조
-	ASSERT_VALID(pDoc);
-	pDoc->OnUpSampling(); // Doc 클래스에 OnUpSampling 함수 호출
-	Invalidate(TRUE); // 화면 갱신
-
-}
-
-
-void CIMPKSH200721View::OnQuantization()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument(); // Doc 클래스 참조
-	ASSERT_VALID(pDoc);
-	pDoc->OnQuantization(); // Doc 클래스에 OnQuantization 함수 호출
-	Invalidate(TRUE); // 화면 갱신
-
-}
-
-void CIMPKSH200721View::OnSumConstant()
+void CIMPKSH200721View::OnSelect(UINT UID)
 {
 	CIMPKSH200721Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-	pDoc->OnSumConstant();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnSubConstant()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnSubConstant();
-	Invalidate(TRUE);
-}
-void CIMPKSH200721View::OnMulConstant()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnMulConstant();
-	Invalidate(TRUE);
-}
-void CIMPKSH200721View::OnDivConstant()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnDivConstant();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnAndOperate()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnAndOperate();
-	Invalidate(TRUE);
-}
-void CIMPKSH200721View::OnOrOperate()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnOrOperate();
-	Invalidate(TRUE);
-}
-void CIMPKSH200721View::OnXorOperate()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnXorOperate();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnNegaTransform()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnNegaTransform();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnGammaCorrection()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnGammaCorrection();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnBinarization()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnBinarizaion();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnStressTransform()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnStressTransform();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnHistoStretch()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnHistoStretch();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnEndInSearch()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnEndInSearch();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnHistogram()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnHistogram();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnHistoEqual()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnHistoEqual();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnHistoSpec()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnHistoSpec();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnEmbossing()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnEmbossing();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnBlurr()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnBlurr();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnGaussianFilter()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnGaussianFilter();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnSharpening()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnSharpening();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnHpfSharp()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnHpfSharp();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnLpfSharp()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnLpfSharp();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnDiffOperatorHor()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnDiffOperatorHor();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnHomogenOperator()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnHomogenOperator();
-	Invalidate(TRUE);
-}
-
-void CIMPKSH200721View::OnLaplacian()
-{
-	CIMPKSH200721Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	pDoc->OnLaplacian();
+	switch (UID)
+	{
+		case ID_DOWN_SAMPLING:
+			pDoc->OnDownSampling();
+			break;
+		case ID_UP_SAMPLING:
+			pDoc->OnUpSampling();
+			break;
+		case ID_QUANTIZATION:
+			pDoc->OnQuantization();
+			break;
+		case ID_SUM_CONSTANT:
+			pDoc->OnSumConstant();
+			break;
+		case ID_SUB_CONSTANT:
+			pDoc->OnSubConstant();
+			break;
+		case ID_MUL_CONSTANT:
+			pDoc->OnMulConstant();
+			break;
+		case ID_DIV_CONSTANT:
+			pDoc->OnDivConstant();
+			break;
+		case ID_AND_OPERATE:
+			pDoc->OnAndOperate();
+			break;
+		case ID_OR_OPERATE:
+			pDoc->OnOrOperate();
+			break;
+		case ID_XOR_OPERATE:
+			pDoc->OnXorOperate();
+			break;
+		case ID_NEGA_TRANSFORM:
+			pDoc->OnNegaTransform();
+			break;
+		case ID_GAMMA_CORRECTION:
+			pDoc->OnGammaCorrection();
+			break;
+		case ID_BINARIZATION:
+			pDoc->OnBinarizaion();
+			break;
+		case ID_STRESS_TRANSFORM:
+			pDoc->OnStressTransform();
+			break;
+		case ID_HISTO_STRETCH:
+			pDoc->OnHistoStretch();
+			break;
+		case ID_END_IN_SEARCH:
+			pDoc->OnEndInSearch();
+			break;
+		case ID_HISTOGRAM:
+			pDoc->OnHistogram();
+			break;
+		case ID_HISTO_EQUAL:
+			pDoc->OnHistoEqual();
+			break;
+		case ID_HISTO_SPEC:
+			pDoc->OnHistoSpec();
+			break;
+		case ID_EMBOSSING:
+			pDoc->OnEmbossing();
+			break;
+		case ID_BLURR:
+			pDoc->OnBlurr();
+			break;
+		case ID_GAUSSIAN_FILTER:
+			pDoc->OnGaussianFilter();
+			break;
+		case ID_SHARPENING:
+			pDoc->OnSharpening();
+			break;
+		case ID_HPF_SHARP:
+			pDoc->OnHpfSharp();
+			break;
+		case ID_LPF_SHARP:
+			pDoc->OnLpfSharp();
+			break;
+		case ID_DIFF_OPERATOR_HOR:
+			pDoc->OnDiffOperatorHor();
+			break;
+		case ID_HOMOGEN_OPERATOR:
+			pDoc->OnHomogenOperator();
+			break;
+		case ID_LAPLACIAN:
+			pDoc->OnLaplacian();
+			break;
+	}
 	Invalidate(TRUE);
 }
