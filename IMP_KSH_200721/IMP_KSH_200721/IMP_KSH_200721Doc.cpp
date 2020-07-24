@@ -569,12 +569,18 @@ void CIMPKSH200721Doc::OnEndInSearch()
 
 	for (i = 0; i < m_size; i++)
 	{
-		if (m_InputImage[i] >= MAX)
-			m_OutputImage[i] = 255;
-		else if (m_InputImage[i] <= MIN)
+		//if (m_InputImage[i] >= MAX)
+		//	m_OutputImage[i] = 255;
+		//else if (m_InputImage[i] <= MIN)
+		//	m_OutputImage[i] = 0;
+		//else
+		//	m_OutputImage[i] = (m_InputImage[i] - MIN) * 255 / (MAX - MIN);
+		if (m_InputImage[i] >= 130)
+			m_OutputImage[i] = 0;
+		else if (m_InputImage[i] <= 0)
 			m_OutputImage[i] = 0;
 		else
-			m_OutputImage[i] = (m_InputImage[i] - MIN) * 255 / (MAX - MIN);
+			m_OutputImage[i] = m_InputImage[i];
 	}
 }
 
@@ -1284,3 +1290,115 @@ void CIMPKSH200721Doc::OnRotation()
 	delete[] tempArray;
 }
 
+void CIMPKSH200721Doc::OnFrameCal(UINT UID)
+{
+	CFile File;
+	CFileDialog dlg(TRUE);
+
+	m_Re_height = m_height;
+	m_Re_width = m_width;
+	m_Re_size = m_size;
+
+	m_OutputImage = new unsigned char[m_size];
+	m_TempImage = new unsigned char[m_size];
+
+	if (dlg.DoModal() == IDOK)
+	{
+		File.Open(dlg.GetPathName(), CFile::modeRead);
+		if (File.GetLength() == m_size)
+		{
+			File.Read(m_TempImage, m_size);
+			File.Close();
+
+			switch (UID)
+			{
+			case ID_FRAME_SUM:
+				OnFrameSum();
+				break;
+			case ID_FRAME_SUB:
+				OnFrameSub();
+				break;
+			case ID_FRAME_MUL:
+				OnFrameMul();
+				break;
+			case ID_FRAME_DIV:
+				OnFrameDiv();
+				break;
+			case ID_FRAME_AND:
+				OnFrameAnd();
+				break;
+			case ID_FRAME_OR:
+				OnFrameOr();
+				break;
+			}
+		}
+	}
+}
+
+void CIMPKSH200721Doc::OnFrameSum()
+{
+	int temp;
+	for (int i = 0; i < m_size; i++)
+	{
+		temp = m_InputImage[i] + m_TempImage[i];
+		if (temp > 255)
+			m_OutputImage[i] = 255;
+		else
+			m_OutputImage[i] = temp;
+	}
+}
+
+void CIMPKSH200721Doc::OnFrameSub()
+{
+	int temp;
+	for (int i = 0; i < m_size; i++)
+	{
+		temp = m_InputImage[i] - m_TempImage[i];
+		if (temp < 0)
+			m_OutputImage[i] = 0;
+		else
+			m_OutputImage[i] = temp;
+	}
+}
+
+void CIMPKSH200721Doc::OnFrameMul()
+{
+	int temp;
+	for (int i = 0; i < m_size; i++)
+	{
+		temp = m_InputImage[i] * m_TempImage[i];
+		if (temp > 255)
+			m_OutputImage[i] = 255;
+		else if (temp < 0)
+			m_OutputImage[i] = 0;
+		else
+			m_OutputImage[i] = temp;
+	}
+}
+
+void CIMPKSH200721Doc::OnFrameDiv()
+{
+	int temp;
+	for (int i = 0; i < m_size; i++)
+	{
+		temp = m_InputImage[i] / m_TempImage[i];
+		if (temp > 255)
+			m_OutputImage[i] = 255;
+		else if (temp < 0)
+			m_OutputImage[i] = 0;
+		else
+			m_OutputImage[i] = temp;
+	}
+}
+
+void CIMPKSH200721Doc::OnFrameAnd()
+{
+	for (int i = 0; i < m_size; i++)
+		m_OutputImage[i] = m_InputImage[i] & m_TempImage[i];
+}
+
+void CIMPKSH200721Doc::OnFrameOr()
+{
+	for (int i = 0; i < m_size; i++)
+		m_OutputImage[i] = m_InputImage[i] | m_TempImage[i];
+}

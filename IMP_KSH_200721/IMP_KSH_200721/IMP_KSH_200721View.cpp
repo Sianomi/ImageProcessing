@@ -30,7 +30,7 @@ BEGIN_MESSAGE_MAP(CIMPKSH200721View, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CIMPKSH200721View::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
-	ON_COMMAND_RANGE(ID_DOWN_SAMPLING, ID_ROTATION, &CIMPKSH200721View::OnSelect)
+	ON_COMMAND_RANGE(ID_DOWN_SAMPLING, ID_FRAME_OR, &CIMPKSH200721View::OnSelect)
 END_MESSAGE_MAP()
 
 // CIMPKSH200721View 생성/소멸
@@ -257,6 +257,14 @@ void CIMPKSH200721View::OnSelect(UINT UID)
 		case ID_ROTATION:
 			pDoc->OnRotation();
 			break;
+		case ID_FRAME_SUM:
+		case ID_FRAME_SUB:
+		case ID_FRAME_MUL:
+		case ID_FRAME_DIV:
+		case ID_FRAME_AND:
+		case ID_FRAME_OR:
+			pDoc->OnFrameCal(UID);
+			break;
 	}
-	Invalidate(TRUE);
+	Invalidate(true);
 }

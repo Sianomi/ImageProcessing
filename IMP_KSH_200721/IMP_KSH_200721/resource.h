@@ -163,13 +163,28 @@
 #define ID_MIRROR_VER                   32840
 #define ID_Menu32841                    32841
 #define ID_ROTATION                     32842
+#define ID_FRAMEPROCESSING_32843        32843
+#define ID_FRAMEPROCESSING_32844        32844
+#define ID_FRAMEPROCESSING_32845        32845
+#define ID_FRAMEPROCESSING_32846        32846
+#define ID_FRAMEPROCESSING_32847        32847
+#define ID_FRAMEPROCESSING_32848        32848
+#define ID_FRAMEPROCESSING_32849        32849
+#define ID_FRAME_SUM                    32850
+#define ID_FRAME_SUB                    32851
+#define ID_FRAME                        32852
+#define ID_FRAME_MUL                    32853
+#define ID_FRAME_DIV                    32854
+#define ID_FRAME_AND                    32855
+#define ID_FRAME_COMB                   32856
+#define ID_FRAME_OR                     32857
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        320
-#define _APS_NEXT_COMMAND_VALUE         32843
+#define _APS_NEXT_COMMAND_VALUE         32858
 #define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

@@ -56,6 +56,7 @@ public:
 	double m_HIST[256], m_Sum_Of_HIST[256];
 	unsigned char m_Scale_HIST[256];
 	double** m_tempImage;
+	unsigned char* m_TempImage;
 	void OnUpSampling();
 	void OnQuantization();
 	void OnSumConstant();
@@ -95,4 +96,11 @@ public:
 	void OnMirrorHor();
 	void OnMirrorVer();
 	void OnRotation();
+	void OnFrameCal(UINT UID);
+	void OnFrameSum();
+	void OnFrameSub();
+	void OnFrameMul();
+	void OnFrameDiv();
+	void OnFrameAnd();
+	void OnFrameOr();
 };
